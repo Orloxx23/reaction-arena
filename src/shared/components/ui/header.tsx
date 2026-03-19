@@ -2,22 +2,28 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useI18n, type Locale } from "@/shared/i18n";
 import { Icon } from "./icon";
-
-const desktopLinks = [
-  { href: "/", label: "Arena" },
-  { href: "/play", label: "Training" },
-  { href: "/multiplayer", label: "Multiplayer" },
-];
-
-const mobileLinks = [
-  { href: "/", label: "Arena", icon: "bolt" },
-  { href: "/play", label: "Training", icon: "fitness_center" },
-  { href: "/multiplayer", label: "Rooms", icon: "groups" },
-];
 
 export function Header() {
   const pathname = usePathname();
+  const { locale, setLocale, t } = useI18n();
+
+  const desktopLinks = [
+    { href: "/", label: t.nav.arena },
+    { href: "/play", label: t.nav.training },
+    // { href: "/multiplayer", label: t.nav.multiplayer },
+  ];
+
+  const mobileLinks = [
+    { href: "/", label: t.nav.arena, icon: "bolt" },
+    { href: "/play", label: t.nav.training, icon: "fitness_center" },
+    // { href: "/multiplayer", label: t.nav.rooms, icon: "groups" },
+  ];
+
+  const toggleLocale = () => {
+    setLocale(locale === "en" ? "es" : "en");
+  };
 
   return (
     <>
@@ -28,7 +34,7 @@ export function Header() {
           className="text-xl font-bold tracking-widest text-[#00FF41] uppercase"
           style={{ fontFamily: "var(--font-heading)" }}
         >
-          Reaction Time Arena
+          {t.nav.brand}
         </Link>
 
         <div className="flex items-center gap-6">
@@ -53,15 +59,16 @@ export function Header() {
             })}
           </nav>
 
-          {/* Icon buttons */}
-          {/* <div className="flex items-center gap-4">
-            <button className="text-on-surface-variant hover:text-[#00FF41] transition-colors active:scale-90">
-              <Icon name="military_tech" />
-            </button>
-            <button className="text-on-surface-variant hover:text-[#00FF41] transition-colors active:scale-90">
-              <Icon name="account_circle" />
-            </button>
-          </div> */}
+          {/* Language switcher */}
+          <button
+            type="button"
+            onClick={toggleLocale}
+            className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-bold tracking-widest uppercase text-on-surface-variant hover:text-[#00FF41] transition-colors border border-outline-variant/20 rounded-md cursor-pointer"
+            style={{ fontFamily: "var(--font-body)" }}
+          >
+            <Icon name="translate" className="text-base" />
+            <span>{locale === "en" ? "ES" : "EN"}</span>
+          </button>
         </div>
       </header>
 

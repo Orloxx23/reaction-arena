@@ -40,8 +40,8 @@ export function useGame() {
   }, [startRound, clearTimer, store]);
 
   useEffect(() => {
-    store.loadBestTime();
-  }, [store]);
+    useGameStore.getState().loadBestTime();
+  }, []);
 
   useEffect(() => {
     return clearTimer;

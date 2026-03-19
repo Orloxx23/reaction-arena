@@ -1,0 +1,32 @@
+{
+  "home": {
+    "systemOnline": "System Online",
+    "title": "REACTION TIME ARENA",
+    "subtitle": "TEST YOUR REFLEXES",
+    "playSolo": "PLAY SOLO"
+  },
+  "nav": {
+    "brand": "Reaction Time Arena",
+    "arena": "Arena",
+    "training": "Training",
+    "multiplayer": "Multiplayer",
+    "rooms": "Rooms"
+  },
+  "game": {
+    "systemReady": "System Ready",
+    "clickToStart": "CLICK TO START",
+    "waitForSignal": "Wait for signal... React instantly",
+    "wait": "WAIT...",
+    "dontClickYet": "Don't click yet!",
+    "clickNow": "CLICK NOW!",
+    "finalReaction": "Final Reaction",
+    "personalBest": "Personal Best",
+    "clickToTryAgain": "Click to try again",
+    "tooSoon": "TOO SOON!",
+    "tooSoonShort": "Too soon"
+  },
+  "language": {
+    "en": "EN",
+    "es": "ES"
+  }
+}

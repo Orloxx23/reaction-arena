@@ -1,12 +1,15 @@
 "use client";
 
 import type { GameResult } from "@/types/game";
+import { useI18n } from "@/shared/i18n";
 
 interface ReactionHistoryProps {
   history: GameResult[];
 }
 
 export function ReactionHistory({ history }: ReactionHistoryProps) {
+  const { t } = useI18n();
+
   return (
     <div className="flex flex-wrap gap-2 justify-center">
       {history.map((result, i) => (
@@ -18,7 +21,7 @@ export function ReactionHistory({ history }: ReactionHistoryProps) {
               : "bg-primary/8 text-primary border border-primary/10"
           } ${i === 0 ? "ring-1 ring-primary-fixed/30" : ""}`}
         >
-          {result.tooSoon ? "Too soon" : `${result.reactionTime}ms`}
+          {result.tooSoon ? t.game.tooSoonShort : `${result.reactionTime}ms`}
         </div>
       ))}
     </div>

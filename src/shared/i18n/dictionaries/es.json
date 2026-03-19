@@ -1,0 +1,32 @@
+{
+  "home": {
+    "systemOnline": "Sistema En Línea",
+    "title": "ARENA DE TIEMPO DE REACCIÓN",
+    "subtitle": "PON A PRUEBA TUS REFLEJOS",
+    "playSolo": "JUGAR SOLO"
+  },
+  "nav": {
+    "brand": "Arena de Tiempo de Reacción",
+    "arena": "Arena",
+    "training": "Entrenamiento",
+    "multiplayer": "Multijugador",
+    "rooms": "Salas"
+  },
+  "game": {
+    "systemReady": "Sistema Listo",
+    "clickToStart": "CLIC PARA EMPEZAR",
+    "waitForSignal": "Espera la señal... Reacciona al instante",
+    "wait": "ESPERA...",
+    "dontClickYet": "¡No hagas clic aún!",
+    "clickNow": "¡CLIC AHORA!",
+    "finalReaction": "Reacción Final",
+    "personalBest": "Mejor Marca",
+    "clickToTryAgain": "Clic para intentar de nuevo",
+    "tooSoon": "¡MUY PRONTO!",
+    "tooSoonShort": "Muy pronto"
+  },
+  "language": {
+    "en": "EN",
+    "es": "ES"
+  }
+}

@@ -1,10 +1,12 @@
 "use client";
 
+import { useI18n } from "@/shared/i18n";
 import { useGame } from "../hooks/use-game";
 import { ReactionHistory } from "./reaction-history";
 
 export function GameArena() {
   const { state, reactionTime, bestTime, history, handleClick } = useGame();
+  const { t } = useI18n();
 
   return (
     <div className="flex flex-col grow w-full">
@@ -31,16 +33,16 @@ export function GameArena() {
           {state === "idle" && (
             <>
               <p className="text-primary text-sm font-bold tracking-[0.2em] uppercase mb-4">
-                System Ready
+                {t.game.systemReady}
               </p>
               <h1
                 className="text-[4rem] md:text-[8rem] font-extrabold tracking-tighter leading-none text-glow italic"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
-                CLICK TO START
+                {t.game.clickToStart}
               </h1>
               <p className="text-on-surface-variant text-lg tracking-[0.4em] font-bold uppercase mt-4">
-                Wait for signal... React instantly
+                {t.game.waitForSignal}
               </p>
             </>
           )}
@@ -52,10 +54,10 @@ export function GameArena() {
                 className="text-[4rem] md:text-[10rem] font-extrabold tracking-tighter leading-none italic text-white drop-shadow-2xl"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
-                WAIT...
+                {t.game.wait}
               </h1>
               <p className="text-white/60 text-lg tracking-[0.4em] font-bold uppercase mt-4">
-                Don&apos;t click yet!
+                {t.game.dontClickYet}
               </p>
             </>
           )}
@@ -67,10 +69,10 @@ export function GameArena() {
                 className="text-[4rem] md:text-[14rem] font-extrabold tracking-tighter leading-none italic text-surface-container-lowest drop-shadow-2xl"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
-                CLICK NOW!
+                {t.game.clickNow}
               </h1>
               <p className="text-surface-container-lowest/60 text-lg tracking-[0.4em] font-bold uppercase mt-4">
-                Wait for signal... React instantly
+                {t.game.waitForSignal}
               </p>
             </>
           )}
@@ -79,7 +81,7 @@ export function GameArena() {
           {state === "clicked" && reactionTime !== null && (
             <>
               <div className="text-on-surface-variant text-sm font-bold uppercase tracking-[0.2em] mb-2">
-                Final Reaction
+                {t.game.finalReaction}
               </div>
               <h1
                 className="font-bold text-[6rem] md:text-[8rem] leading-none drop-shadow-[0_0_32px_rgba(156,255,147,0.2)]"
@@ -94,7 +96,7 @@ export function GameArena() {
                 <div className="mt-4 flex justify-center gap-8">
                   <div>
                     <p className="text-[10px] text-on-surface-variant font-bold uppercase">
-                      Personal Best
+                      {t.game.personalBest}
                     </p>
                     <p
                       className="text-2xl font-black text-primary-fixed"
@@ -106,7 +108,7 @@ export function GameArena() {
                 </div>
               )}
               <p className="text-on-surface-variant text-sm tracking-[0.2em] uppercase mt-6">
-                Click to try again
+                {t.game.clickToTryAgain}
               </p>
             </>
           )}
@@ -118,10 +120,10 @@ export function GameArena() {
                 className="text-[4rem] md:text-[8rem] font-extrabold tracking-tighter leading-none italic text-error"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
-                TOO SOON!
+                {t.game.tooSoon}
               </h1>
               <p className="text-on-surface-variant text-sm tracking-[0.2em] uppercase mt-4">
-                Click to try again
+                {t.game.clickToTryAgain}
               </p>
             </>
           )}
