@@ -66,9 +66,9 @@
   --color-inverse-on-surface: #565554;
 
   /* Font families */
-  --font-headline: "Space Grotesk", sans-serif;
-  --font-body: "Inter", sans-serif;
-  --font-label: "Inter", sans-serif;
+  --font-headline: "Press Start 2P", monospace;
+  --font-body: "Silkscreen", monospace;
+  --font-label: "Silkscreen", monospace;
 
   /* Border radius - matches Stitch design exactly */
   --radius-sm: 0.125rem;
@@ -168,7 +168,13 @@
   * {
     @apply border-outline-variant/15;
   }
+  html {
+    overflow: hidden;
+  }
   body {
     @apply bg-background text-on-background;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100dvh;
   }
 }

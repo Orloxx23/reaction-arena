@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter } from "next/font/google";
+import { Press_Start_2P, Silkscreen } from "next/font/google";
 import { headers } from "next/headers";
 import { I18nProvider, type Locale } from "@/shared/i18n";
+import { GlitchOverlay } from "@/shared/components/glitch/glitch-overlay";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
+const pressStart = Press_Start_2P({
   subsets: ["latin"],
   variable: "--font-heading",
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "400",
 });
 
-const inter = Inter({
+const silkscreen = Silkscreen({
   subsets: ["latin"],
   variable: "--font-body",
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -38,10 +40,13 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`min-h-dvh flex flex-col bg-background text-on-background font-body antialiased selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden ${spaceGrotesk.variable} ${inter.variable}`}
+        className={`min-h-dvh flex flex-col bg-background text-on-background font-body antialiased selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden ${pressStart.variable} ${silkscreen.variable}`}
         style={{ fontFamily: "var(--font-body)" }}
       >
-        <I18nProvider initialLocale={locale}>{children}</I18nProvider>
+        <I18nProvider initialLocale={locale}>
+          {children}
+          <GlitchOverlay />
+        </I18nProvider>
       </body>
     </html>
   );
