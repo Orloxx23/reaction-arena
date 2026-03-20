@@ -18,7 +18,9 @@
       "Bash(rtk gh:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:tympanus.net)",
-      "WebFetch(domain:api.github.com)"
+      "WebFetch(domain:api.github.com)",
+      "Bash(rtk ls:*)",
+      "Bash(find /c/Users/orlox/Documents/Proyectos/reaction-royale/src -name *.md -o -name *.MD)"
     ]
   }
 }

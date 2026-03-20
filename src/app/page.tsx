@@ -48,7 +48,7 @@ export default function Home() {
           </p>
 
           {/* CTA Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-1 gap-4 w-full max-w-2xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl">
             <Link
               href="/play"
               className="w-full group relative flex items-center justify-between px-8 py-6 bg-primary-container text-on-primary font-bold text-xl tracking-tight transition-all duration-300 hover:bg-primary-fixed hover:shadow-[0_0_32px_rgba(0,236,59,0.2)] active:scale-95 rounded-lg"
@@ -57,6 +57,17 @@ export default function Home() {
               <span>{t.home.playSolo}</span>
               <Icon
                 name="bolt"
+                className="group-hover:translate-x-1 transition-transform"
+              />
+            </Link>
+            <Link
+              href="/multiplayer"
+              className="w-full group relative flex items-center justify-between px-8 py-6 border border-outline-variant/30 text-on-surface font-bold text-xl tracking-tight transition-all duration-300 hover:bg-surface-container-highest hover:border-[#00FF41]/40 hover:shadow-[0_0_32px_rgba(0,236,59,0.1)] active:scale-95 rounded-lg"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              <span>{t.home.playMultiplayer}</span>
+              <Icon
+                name="groups"
                 className="group-hover:translate-x-1 transition-transform"
               />
             </Link>

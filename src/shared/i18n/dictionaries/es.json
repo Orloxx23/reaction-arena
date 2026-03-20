@@ -3,14 +3,16 @@
     "systemOnline": "Sistema En Línea",
     "title": "ARENA DE TIEMPO DE REACCIÓN",
     "subtitle": "PON A PRUEBA TUS REFLEJOS",
-    "playSolo": "JUGAR SOLO"
+    "playSolo": "JUGAR SOLO",
+    "playMultiplayer": "MULTIJUGADOR"
   },
   "nav": {
     "brand": "Arena de Tiempo de Reacción",
     "arena": "Arena",
     "training": "Entrenamiento",
     "multiplayer": "Multijugador",
-    "rooms": "Salas"
+    "rooms": "Salas",
+    "settings": "Ajustes"
   },
   "game": {
     "systemReady": "Sistema Listo",
@@ -28,5 +30,22 @@
   "language": {
     "en": "EN",
     "es": "ES"
+  },
+  "settings": {
+    "title": "AJUSTES",
+    "subtitle": "PERSONALIZA TU EXPERIENCIA",
+    "visualEffects": "Efectos Visuales",
+    "pixelGrid": "Grilla de Píxeles",
+    "pixelGridDesc": "Overlay de matriz LED con separación entre píxeles",
+    "screenShake": "Temblor de Pantalla",
+    "screenShakeDesc": "Vibración de pantalla al hacer clic",
+    "glitchEffects": "Efectos Glitch",
+    "glitchEffectsDesc": "Líneas de corte, división RGB y bloques glitch",
+    "filmNoise": "Ruido de Película",
+    "filmNoiseDesc": "Capa de ruido estático",
+    "screenFlicker": "Parpadeo de Pantalla",
+    "screenFlickerDesc": "Bajones aleatorios de brillo",
+    "resetDefaults": "Restablecer",
+    "allEffectsOff": "Todos los efectos visuales están desactivados"
   }
 }

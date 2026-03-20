@@ -12,13 +12,14 @@ export function Header() {
   const desktopLinks = [
     { href: "/", label: t.nav.arena },
     { href: "/play", label: t.nav.training },
-    // { href: "/multiplayer", label: t.nav.multiplayer },
+    { href: "/multiplayer", label: t.nav.multiplayer },
   ];
 
   const mobileLinks = [
     { href: "/", label: t.nav.arena, icon: "bolt" },
     { href: "/play", label: t.nav.training, icon: "fitness_center" },
-    // { href: "/multiplayer", label: t.nav.rooms, icon: "groups" },
+    { href: "/multiplayer", label: t.nav.rooms, icon: "groups" },
+    { href: "/settings", label: t.nav.settings, icon: "settings" },
   ];
 
   const toggleLocale = () => {
@@ -58,6 +59,19 @@ export function Header() {
               );
             })}
           </nav>
+
+          {/* Settings link */}
+          <Link
+            href="/settings"
+            className={`flex items-center transition-colors ${
+              pathname === "/settings"
+                ? "text-[#00FF41]"
+                : "text-on-surface-variant hover:text-[#00FF41]"
+            }`}
+            aria-label={t.nav.settings}
+          >
+            <Icon name="settings" className="text-xl" />
+          </Link>
 
           {/* Language switcher */}
           <button

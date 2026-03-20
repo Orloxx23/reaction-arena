@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useCallback, useState } from "react";
 import { detectGpuCapability } from "./gpu-detection";
+import { useSettingsStore } from "@/shared/store/settings-store";
 
 // Pixel grid size in CSS pixels
 const PX = 5;
@@ -28,6 +29,10 @@ uniform vec2 u_resolution;
 uniform float u_click;
 uniform float u_cell;
 uniform float u_gap;
+uniform float u_pixelGrid;
+uniform float u_glitch;
+uniform float u_noise;
+uniform float u_flicker;
 
 vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
 vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -143,23 +148,23 @@ void main() {
   // Pixel area gets grain/glow on top
 
   // Dark gap: output black with high alpha where pixelMask is 0
-  float gapDark = (1.0 - pixelMask) * 0.5;
+  float gapDark = (1.0 - pixelMask) * 0.5 * u_pixelGrid;
 
   // Grain/glow effects (only visible inside pixels)
-  float grainVis = (ambientGrain + filmNoise) * pixelMask * shimmer;
-  grainVis += abs(grain) * tearTotal * 1.5 * pixelMask;
-  grainVis += abs(grain) * glitch * glitch * 0.25 * pixelMask;
+  float grainVis = (ambientGrain + filmNoise * u_noise) * pixelMask * shimmer;
+  grainVis += abs(grain) * tearTotal * 1.5 * pixelMask * u_glitch;
+  grainVis += abs(grain) * glitch * glitch * 0.25 * pixelMask * u_glitch;
 
   vec3 grainColor = vec3(0.15, 1.0, 0.3) * grainVis;
-  grainColor.r += rGrain * 0.3 * glitch * pixelMask;
-  grainColor.b += bGrain * 0.3 * glitch * pixelMask;
-  grainColor += vec3(0.3, 1.0, 0.4) * abs(grain) * tearTotal * 0.6 * pixelMask;
+  grainColor.r += rGrain * 0.3 * glitch * pixelMask * u_glitch;
+  grainColor.b += bGrain * 0.3 * glitch * pixelMask * u_glitch;
+  grainColor += vec3(0.3, 1.0, 0.4) * abs(grain) * tearTotal * 0.6 * pixelMask * u_glitch;
 
   // Glitch blocks
-  grainColor += blockColor * 0.6 * pixelMask;
+  grainColor += blockColor * 0.6 * pixelMask * u_glitch;
 
   // Screen flicker - random brightness dips
-  float flicker = 1.0 - step(0.97, hash(vec2(floor(t * 8.0), 0.0))) * 0.4;
+  float flicker = 1.0 - step(0.97, hash(vec2(floor(t * 8.0), 0.0))) * 0.4 * u_flicker;
 
   // Final: dark gaps + bright grain in pixel areas
   vec3 color = grainColor;
@@ -182,6 +187,10 @@ uniform vec2 u_resolution;
 uniform float u_click;
 uniform float u_cell;
 uniform float u_gap;
+uniform float u_pixelGrid;
+uniform float u_glitch;
+uniform float u_noise;
+uniform float u_flicker;
 
 float hash(vec2 p) {
   return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
@@ -196,9 +205,9 @@ void main() {
   float pixelY = step(gap / cell, cellUV.y) * step(cellUV.y, 1.0 - gap / cell);
   float pixelMask = pixelX * pixelY;
 
-  float gapDark = (1.0 - pixelMask) * 0.7;
-  float grain = hash(floor(gl_FragCoord.xy / cell) + u_time * 3.0) * 0.03;
-  float burst = hash(floor(gl_FragCoord.xy) + u_time * 100.0) * u_click * u_click * 0.2;
+  float gapDark = (1.0 - pixelMask) * 0.7 * u_pixelGrid;
+  float grain = hash(floor(gl_FragCoord.xy / cell) + u_time * 3.0) * 0.03 * u_noise;
+  float burst = hash(floor(gl_FragCoord.xy) + u_time * 100.0) * u_click * u_click * 0.2 * u_glitch;
 
   vec3 color = vec3(0.15, 1.0, 0.3) * (grain + burst) * pixelMask;
   float alpha = clamp(gapDark + length(color) * 3.0, 0.0, 0.7);
@@ -239,8 +248,10 @@ function createProgram(gl: WebGL2RenderingContext, vs: string, fs: string): WebG
 function applyShake(intensity: number) {
   if (intensity < 0.01) {
     document.body.style.transform = "";
+    document.body.style.overflow = "";
     return;
   }
+  document.body.style.overflow = "hidden";
   const r = () => (Math.random() - 0.5) * 2;
   document.body.style.transform =
     `translate(${r() * intensity * 18}px, ${r() * intensity * 12}px) rotate(${r() * intensity * 2}deg) scale(${1 + r() * intensity * 0.025})`;
@@ -310,6 +321,9 @@ export function GlitchOverlay() {
   const clickRef = useRef(0);
   const startTimeRef = useRef(0);
   const [enabled, setEnabled] = useState(false);
+  const settings = useSettingsStore();
+  const settingsRef = useRef(settings);
+  settingsRef.current = settings;
 
   const handleClick = useCallback(() => {
     clickRef.current = 1.0;
@@ -351,6 +365,10 @@ export function GlitchOverlay() {
     const uClick = gl.getUniformLocation(program, "u_click");
     const uCell = gl.getUniformLocation(program, "u_cell");
     const uGap = gl.getUniformLocation(program, "u_gap");
+    const uPixelGrid = gl.getUniformLocation(program, "u_pixelGrid");
+    const uGlitch = gl.getUniformLocation(program, "u_glitch");
+    const uNoise = gl.getUniformLocation(program, "u_noise");
+    const uFlicker = gl.getUniformLocation(program, "u_flicker");
 
     gl.useProgram(program);
     gl.enable(gl.BLEND);
@@ -387,17 +405,39 @@ export function GlitchOverlay() {
       clickRef.current *= 0.85;
       if (clickRef.current < 0.005) clickRef.current = 0;
 
-      // Shake + DOM displacement only on click
-      applyShake(clickRef.current);
-      applyContentGlitch(clickRef.current);
+      const s = settingsRef.current;
+
+      // Shake + DOM displacement only on click (if enabled)
+      if (s.screenShake) {
+        applyShake(clickRef.current);
+      } else {
+        applyShake(0);
+      }
+      if (s.glitchEffects) {
+        applyContentGlitch(clickRef.current);
+      } else {
+        applyContentGlitch(0);
+      }
+
+      // Check if any visual effect is on — skip rendering if all off
+      const anyOn = s.pixelGrid || s.glitchEffects || s.filmNoise || s.screenFlicker;
+      if (!anyOn) {
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        return;
+      }
 
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.uniform1f(uTime, t);
       gl.uniform2f(uRes, canvas.width, canvas.height);
-      gl.uniform1f(uClick, clickRef.current);
+      gl.uniform1f(uClick, s.glitchEffects ? clickRef.current : 0);
       gl.uniform1f(uCell, cellPx);
       gl.uniform1f(uGap, gapPx);
+      gl.uniform1f(uPixelGrid, s.pixelGrid ? 1.0 : 0.0);
+      gl.uniform1f(uGlitch, s.glitchEffects ? 1.0 : 0.0);
+      gl.uniform1f(uNoise, s.filmNoise ? 1.0 : 0.0);
+      gl.uniform1f(uFlicker, s.screenFlicker ? 1.0 : 0.0);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
     };
 
@@ -410,6 +450,7 @@ export function GlitchOverlay() {
       gl.deleteProgram(program);
       gl.deleteBuffer(buffer);
       document.body.style.transform = "";
+      document.body.style.overflow = "";
       for (const strip of activeStrips) strip.remove();
       activeStrips.length = 0;
     };

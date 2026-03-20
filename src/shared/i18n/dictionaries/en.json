@@ -3,14 +3,16 @@
     "systemOnline": "System Online",
     "title": "REACTION TIME ARENA",
     "subtitle": "TEST YOUR REFLEXES",
-    "playSolo": "PLAY SOLO"
+    "playSolo": "PLAY SOLO",
+    "playMultiplayer": "MULTIPLAYER"
   },
   "nav": {
     "brand": "Reaction Time Arena",
     "arena": "Arena",
     "training": "Training",
     "multiplayer": "Multiplayer",
-    "rooms": "Rooms"
+    "rooms": "Rooms",
+    "settings": "Settings"
   },
   "game": {
     "systemReady": "System Ready",
@@ -28,5 +30,22 @@
   "language": {
     "en": "EN",
     "es": "ES"
+  },
+  "settings": {
+    "title": "SETTINGS",
+    "subtitle": "CUSTOMIZE YOUR EXPERIENCE",
+    "visualEffects": "Visual Effects",
+    "pixelGrid": "Pixel Grid",
+    "pixelGridDesc": "LED matrix overlay with visible pixel gaps",
+    "screenShake": "Screen Shake",
+    "screenShakeDesc": "Screen vibration on click",
+    "glitchEffects": "Glitch Effects",
+    "glitchEffectsDesc": "Tear lines, RGB split, and glitch blocks",
+    "filmNoise": "Film Noise",
+    "filmNoiseDesc": "Static noise grain overlay",
+    "screenFlicker": "Screen Flicker",
+    "screenFlickerDesc": "Random brightness dips",
+    "resetDefaults": "Reset Defaults",
+    "allEffectsOff": "All visual effects are disabled"
   }
 }

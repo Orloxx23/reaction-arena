@@ -177,4 +177,24 @@
     overflow-x: hidden;
     height: 100dvh;
   }
+
+  /* Custom scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #262626 #0e0e0e;
+  }
+  *::-webkit-scrollbar {
+    width: 6px;
+  }
+  *::-webkit-scrollbar-track {
+    background: #0e0e0e;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: #262626;
+    border-radius: 3px;
+  }
+  *::-webkit-scrollbar-thumb:hover,
+  *::-webkit-scrollbar-thumb:active {
+    background: #00fc40;
+  }
 }
