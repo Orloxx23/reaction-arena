@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { Header } from "@/shared/components/ui/header";
 import { Icon } from "@/shared/components/ui/icon";
 import { useI18n } from "@/shared/i18n";
@@ -73,6 +74,10 @@ export default function SettingsPage() {
   const { t } = useI18n();
   const settings = useSettingsStore();
 
+  useEffect(() => {
+    settings.hydrate();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const options: ToggleOption[] = [
     {
       key: "pixelGrid",
@@ -133,49 +138,62 @@ export default function SettingsPage() {
             </h1>
           </div>
 
-          {/* Visual Effects section */}
-          <div className="mb-6">
-            <h2
-              className="text-xs font-bold tracking-[0.2em] uppercase text-on-surface-variant mb-4 px-1"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
-              {t.settings.visualEffects}
-            </h2>
-
-            <div className="flex flex-col gap-2">
-              {options.map((option) => (
-                <SettingsToggle
-                  key={option.key}
-                  option={option}
-                  checked={settings[option.key]}
-                  onChange={(val) => settings.setOption(option.key, val)}
+          {!settings.hydrated ? (
+            <div className="flex flex-col gap-2 mb-6">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="w-full h-18 rounded-lg border border-outline-variant/15 bg-surface-container-low/50 animate-pulse"
                 />
               ))}
             </div>
-          </div>
+          ) : (
+            <>
+              {/* Visual Effects section */}
+              <div className="mb-6">
+                <h2
+                  className="text-xs font-bold tracking-[0.2em] uppercase text-on-surface-variant mb-4 px-1"
+                  style={{ fontFamily: "var(--font-heading)" }}
+                >
+                  {t.settings.visualEffects}
+                </h2>
 
-          {/* Warning when all off */}
-          {allOff && (
-            <div className="flex items-center gap-3 px-4 py-3 rounded-lg border border-error/30 bg-error/5 mb-6">
-              <Icon name="visibility_off" className="text-error text-xl" />
-              <p className="text-xs text-error font-bold uppercase tracking-wider">
-                {t.settings.allEffectsOff}
-              </p>
-            </div>
+                <div className="flex flex-col gap-2">
+                  {options.map((option) => (
+                    <SettingsToggle
+                      key={option.key}
+                      option={option}
+                      checked={settings[option.key]}
+                      onChange={(val) => settings.setOption(option.key, val)}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Warning when all off */}
+              {allOff && (
+                <div className="flex items-center gap-3 px-4 py-3 rounded-lg border border-error/30 bg-error/5 mb-6">
+                  <Icon name="visibility_off" className="text-error text-xl" />
+                  <p className="text-xs text-error font-bold uppercase tracking-wider">
+                    {t.settings.allEffectsOff}
+                  </p>
+                </div>
+              )}
+
+              {/* Reset button */}
+              <button
+                type="button"
+                onClick={settings.resetDefaults}
+                className="w-full flex items-center justify-center gap-2 px-5 py-3 border border-outline-variant/20 rounded-lg text-on-surface-variant hover:text-on-surface hover:border-outline-variant/40 transition-colors cursor-pointer"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                <Icon name="restart_alt" className="text-lg" />
+                <span className="text-xs font-bold tracking-widest uppercase">
+                  {t.settings.resetDefaults}
+                </span>
+              </button>
+            </>
           )}
-
-          {/* Reset button */}
-          <button
-            type="button"
-            onClick={settings.resetDefaults}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3 border border-outline-variant/20 rounded-lg text-on-surface-variant hover:text-on-surface hover:border-outline-variant/40 transition-colors cursor-pointer"
-            style={{ fontFamily: "var(--font-heading)" }}
-          >
-            <Icon name="restart_alt" className="text-lg" />
-            <span className="text-xs font-bold tracking-widest uppercase">
-              {t.settings.resetDefaults}
-            </span>
-          </button>
         </div>
       </main>
     </div>

@@ -11,8 +11,10 @@ export interface SettingsState {
 }
 
 interface SettingsStore extends SettingsState {
+  hydrated: boolean;
   setOption: <K extends keyof SettingsState>(key: K, value: SettingsState[K]) => void;
   resetDefaults: () => void;
+  hydrate: () => void;
 }
 
 const defaults: SettingsState = {
@@ -43,7 +45,9 @@ function saveSettings(state: SettingsState) {
 }
 
 export const useSettingsStore = create<SettingsStore>((set) => ({
-  ...loadSettings(),
+  ...defaults,
+  hydrated: false,
+  hydrate: () => set({ ...loadSettings(), hydrated: true }),
   setOption: (key, value) =>
     set((s) => {
       const next = { ...s, [key]: value };
