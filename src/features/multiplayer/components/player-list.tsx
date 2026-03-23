@@ -2,6 +2,7 @@
 
 import type { MultiplayerPlayer } from "@/types/game";
 import { Icon } from "@/shared/components/ui/icon";
+import { useI18n } from "@/shared/i18n";
 
 interface PlayerListProps {
   players: MultiplayerPlayer[];
@@ -14,6 +15,7 @@ export function PlayerList({
   currentPlayerId,
   hostId,
 }: PlayerListProps) {
+  const { t } = useI18n();
   return (
     <div className="grid gap-3">
       {players.map((player) => {
@@ -54,13 +56,13 @@ export function PlayerList({
                     {player.nickname.toUpperCase()}
                     {isYou && (
                       <span className="text-xs ml-1.5 text-on-surface-variant font-normal normal-case">
-                        (you)
+                        {t.multiplayer.youLower}
                       </span>
                     )}
                   </span>
                   {isHost && (
                     <span className="bg-primary-container text-on-primary-container text-[10px] font-bold px-1.5 py-0.5 rounded uppercase tracking-tighter">
-                      Host
+                      {t.multiplayer.host}
                     </span>
                   )}
                 </div>
@@ -72,7 +74,7 @@ export function PlayerList({
               {player.state === "clicked" && player.reactionTime !== null && (
                 <>
                   <span className="text-[10px] text-on-surface-variant uppercase block">
-                    Ping
+                    {t.multiplayer.ping}
                   </span>
                   <p
                     className="text-primary-dim font-medium"
@@ -84,12 +86,12 @@ export function PlayerList({
               )}
               {player.state === "tooSoon" && (
                 <span className="text-xs text-error font-bold uppercase">
-                  Too soon!
+                  {t.multiplayer.tooSoonStatus}
                 </span>
               )}
               {!player.connected && (
                 <span className="text-xs text-on-surface-variant uppercase tracking-wider">
-                  Offline
+                  {t.multiplayer.offline}
                 </span>
               )}
             </div>
@@ -100,7 +102,7 @@ export function PlayerList({
       {/* Empty slot placeholder */}
       <div className="border-2 border-dashed border-outline-variant/20 flex items-center justify-center p-4 rounded-lg opacity-40">
         <span className="text-xs uppercase tracking-widest">
-          Waiting for connector...
+          {t.multiplayer.waitingForConnector}
         </span>
       </div>
     </div>

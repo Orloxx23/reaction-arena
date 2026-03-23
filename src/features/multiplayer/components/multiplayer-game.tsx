@@ -1,12 +1,14 @@
 "use client";
 
 import { useMultiplayer } from "../hooks/use-multiplayer";
+import { useI18n } from "@/shared/i18n";
 import { NicknameForm } from "./nickname-form";
 import { RoomLobby } from "./room-lobby";
 import { WaitingRoom } from "./waiting-room";
 import { MultiplayerArena } from "./multiplayer-arena";
 
 export function MultiplayerGame() {
+  const { t } = useI18n();
   const mp = useMultiplayer();
 
   // Step 1: Enter nickname
@@ -48,7 +50,7 @@ export function MultiplayerGame() {
         </div>
         <div className="flex flex-col items-center gap-6 z-10">
           <p className="text-sm text-on-surface-variant tracking-widest uppercase">
-            Playing as{" "}
+            {t.multiplayer.playingAs}{" "}
             <span
               className="text-primary-fixed font-bold uppercase tracking-wider"
               style={{ fontFamily: "var(--font-heading)" }}

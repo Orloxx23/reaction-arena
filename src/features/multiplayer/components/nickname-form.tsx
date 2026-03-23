@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { Icon } from "@/shared/components/ui/icon";
+import { useI18n } from "@/shared/i18n";
 
 interface NicknameFormProps {
   onSubmit: (nickname: string) => void;
 }
 
 export function NicknameForm({ onSubmit }: NicknameFormProps) {
+  const { t } = useI18n();
   const [name, setName] = useState("");
   const [showError, setShowError] = useState(false);
 
@@ -33,10 +35,10 @@ export function NicknameForm({ onSubmit }: NicknameFormProps) {
             className="text-3xl font-bold tracking-tighter uppercase text-on-surface mb-2"
             style={{ fontFamily: "var(--font-heading)" }}
           >
-            Initialize Profile
+            {t.multiplayer.initializeProfile}
           </h2>
           <p className="text-xs tracking-widest text-on-surface-variant uppercase">
-            Enter the arena to compete
+            {t.multiplayer.enterArena}
           </p>
         </div>
 
@@ -47,7 +49,7 @@ export function NicknameForm({ onSubmit }: NicknameFormProps) {
               className="block text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-3 font-bold"
               htmlFor="nickname"
             >
-              Nickname
+              {t.multiplayer.nickname}
             </label>
             <input
               id="nickname"
@@ -57,7 +59,7 @@ export function NicknameForm({ onSubmit }: NicknameFormProps) {
                 setName(e.target.value);
                 setShowError(false);
               }}
-              placeholder="OPERATOR_NAME"
+              placeholder={t.multiplayer.nicknamePlaceholder}
               maxLength={16}
               minLength={2}
               autoFocus
@@ -67,7 +69,7 @@ export function NicknameForm({ onSubmit }: NicknameFormProps) {
             {showError && (
               <div className="mt-2 flex items-center gap-2 text-error text-[11px] font-medium uppercase tracking-wider opacity-80">
                 <Icon name="error" className="text-sm" />
-                <span>Name required</span>
+                <span>{t.multiplayer.nameRequired}</span>
               </div>
             )}
           </div>
@@ -78,7 +80,7 @@ export function NicknameForm({ onSubmit }: NicknameFormProps) {
             className="w-full bg-primary-container hover:bg-primary-fixed-dim text-on-primary-container font-bold py-5 text-sm tracking-[0.25em] transition-all transform hover:scale-[1.02] active:scale-[0.98] uppercase rounded neon-glow flex items-center justify-center gap-2 group"
             style={{ fontFamily: "var(--font-heading)" }}
           >
-            JOIN GAME
+            {t.multiplayer.joinGame}
             <Icon
               name="bolt"
               className="group-hover:translate-x-1 transition-transform"
@@ -88,7 +90,7 @@ export function NicknameForm({ onSubmit }: NicknameFormProps) {
           {/* Fine print */}
           <div className="text-center">
             <p className="text-[10px] text-outline tracking-widest uppercase">
-              By joining you agree to the Arena Protocols
+              {t.multiplayer.arenaProtocols}
             </p>
           </div>
         </div>

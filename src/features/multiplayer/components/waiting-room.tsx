@@ -3,6 +3,7 @@
 import type { Room, RoomConfig } from "@/types/game";
 import { PlayerList } from "./player-list";
 import { Icon } from "@/shared/components/ui/icon";
+import { useI18n } from "@/shared/i18n";
 import { useState } from "react";
 
 interface WaitingRoomProps {
@@ -22,6 +23,7 @@ export function WaitingRoom({
   onLeave,
   onUpdateConfig,
 }: WaitingRoomProps) {
+  const { t } = useI18n();
   const [copied, setCopied] = useState(false);
   const [starting, setStarting] = useState(false);
 
@@ -47,7 +49,7 @@ export function WaitingRoom({
         <section className="bg-surface-container-low p-8 rounded-lg border-l-4 border-primary-container flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <span className="text-xs uppercase tracking-[0.2em] text-on-surface-variant block mb-1">
-              Arena Lobby ID
+              {t.multiplayer.arenaLobbyId}
             </span>
             <div className="flex items-center gap-4">
               <h1
@@ -64,20 +66,20 @@ export function WaitingRoom({
               </button>
               {copied && (
                 <span className="text-xs text-primary animate-pulse">
-                  Copied!
+                  {t.multiplayer.copied}
                 </span>
               )}
             </div>
           </div>
           <div className="text-left md:text-right">
             <span className="text-xs uppercase tracking-[0.2em] text-primary-dim block mb-1">
-              Status
+              {t.multiplayer.status}
             </span>
             <p
               className="text-xl font-medium tracking-tight"
               style={{ fontFamily: "var(--font-heading)" }}
             >
-              WAITING FOR PLAYERS...
+              {t.multiplayer.waitingForPlayersStatus}
             </p>
           </div>
         </section>
@@ -86,7 +88,7 @@ export function WaitingRoom({
         <section className="space-y-3">
           <div className="flex items-center justify-between px-2">
             <h2 className="text-xs uppercase tracking-[0.2em] text-on-surface-variant">
-              Players ({room.players.length}/8)
+              {t.multiplayer.playersCount.replace("{count}", String(room.players.length))}
             </h2>
             <div className="h-px grow mx-4 bg-outline-variant opacity-20" />
           </div>
@@ -107,14 +109,14 @@ export function WaitingRoom({
               style={{ fontFamily: "var(--font-heading)" }}
             >
               <Icon name="settings" className="text-primary-fixed" />
-              Host Settings
+              {t.multiplayer.hostSettings}
             </h3>
 
             <div className="space-y-6">
               {/* Round count */}
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest text-on-surface-variant px-1">
-                  Round Count
+                  {t.multiplayer.roundCount}
                 </label>
                 {isHost ? (
                   <div className="relative">
@@ -128,7 +130,7 @@ export function WaitingRoom({
                     >
                       {[3, 5, 7, 10, 15, 20].map((n) => (
                         <option key={n} value={n}>
-                          {n} Rounds
+                          {t.multiplayer.nRounds.replace("{n}", String(n))}
                         </option>
                       ))}
                     </select>
@@ -139,7 +141,7 @@ export function WaitingRoom({
                   </div>
                 ) : (
                   <div className="w-full bg-surface-container-highest rounded-lg py-3 px-4 text-on-surface">
-                    {room.config.maxRounds} Rounds
+                    {t.multiplayer.nRounds.replace("{n}", String(room.config.maxRounds))}
                   </div>
                 )}
               </div>
@@ -147,7 +149,7 @@ export function WaitingRoom({
               {/* Round time limit */}
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest text-on-surface-variant px-1">
-                  Time Limit per Round
+                  {t.multiplayer.timeLimitPerRound}
                 </label>
                 {isHost ? (
                   <div className="relative">
@@ -161,7 +163,7 @@ export function WaitingRoom({
                     >
                       {[3000, 5000, 8000, 10000].map((ms) => (
                         <option key={ms} value={ms}>
-                          {ms / 1000}s
+                          {t.multiplayer.seconds.replace("{n}", String(ms / 1000))}
                         </option>
                       ))}
                     </select>
@@ -172,7 +174,7 @@ export function WaitingRoom({
                   </div>
                 ) : (
                   <div className="w-full bg-surface-container-highest rounded-lg py-3 px-4 text-on-surface">
-                    {room.config.roundTimeLimit / 1000}s
+                    {t.multiplayer.seconds.replace("{n}", String(room.config.roundTimeLimit / 1000))}
                   </div>
                 )}
               </div>
@@ -182,15 +184,15 @@ export function WaitingRoom({
                 <div className="flex items-center gap-3 text-tertiary-fixed mb-2">
                   <Icon name="info" className="text-sm" />
                   <span className="text-[10px] uppercase tracking-widest">
-                    Scoring
+                    {t.multiplayer.scoring}
                   </span>
                 </div>
                 <p className="text-sm text-on-surface-variant leading-relaxed">
-                  Each round awards points by speed: 1st gets{" "}
-                  <span className="text-on-surface font-bold">100 pts</span>,
-                  2nd gets <span className="text-on-surface font-bold">80</span>,
-                  3rd <span className="text-on-surface font-bold">60</span>, etc.
-                  Too soon = 0 pts. Highest total score wins!
+                  {t.multiplayer.scoringDesc1}{" "}
+                  <span className="text-on-surface font-bold">{t.multiplayer.scoringDesc2}</span>
+                  {t.multiplayer.scoringDesc3} <span className="text-on-surface font-bold">{t.multiplayer.scoringDesc4}</span>
+                  {t.multiplayer.scoringDesc5} <span className="text-on-surface font-bold">{t.multiplayer.scoringDesc6}</span>
+                  {t.multiplayer.scoringDesc7}
                 </p>
               </div>
             </div>
@@ -206,10 +208,10 @@ export function WaitingRoom({
               {starting ? (
                 <>
                   <div className="w-5 h-5 border-2 border-on-primary-container/30 border-t-on-primary-container rounded-full animate-spin" />
-                  STARTING...
+                  {t.multiplayer.starting}
                 </>
               ) : (
-                "START GAME"
+                t.multiplayer.startGame
               )}
             </button>
           )}
@@ -218,12 +220,12 @@ export function WaitingRoom({
             onClick={onLeave}
             className="w-full text-secondary text-xs uppercase tracking-widest hover:text-white transition-colors cursor-pointer"
           >
-            {isHost ? "Disband Lobby" : "Leave Lobby"}
+            {isHost ? t.multiplayer.disbandLobby : t.multiplayer.leaveLobby}
           </button>
 
           {isHost && room.players.length < 2 && (
             <p className="text-xs text-on-surface-variant text-center">
-              Need at least 2 players to start
+              {t.multiplayer.minPlayers}
             </p>
           )}
         </aside>

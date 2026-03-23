@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useMultiplayerStore } from "../store/multiplayer-store";
 import { getSocket } from "@/lib/realtime/socket";
 import { Icon } from "@/shared/components/ui/icon";
+import { useI18n } from "@/shared/i18n";
 
 function useElapsedTimer(running: boolean) {
   const [elapsed, setElapsed] = useState(0);
@@ -41,6 +42,7 @@ interface MultiplayerArenaProps {
 }
 
 export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps) {
+  const { t } = useI18n();
   const room = useMultiplayerStore((s) => s.room);
   const playerId = useMultiplayerStore((s) => s.playerId);
   const roundResult = useMultiplayerStore((s) => s.roundResult);
@@ -154,7 +156,7 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
                   }`}
                   style={{ fontFamily: "var(--font-heading)" }}
                 >
-                  Round {room.currentRound} of {room.config.maxRounds}
+                  {t.multiplayer.roundOf.replace("{current}", String(room.currentRound)).replace("{max}", String(room.config.maxRounds))}
                 </span>
               </div>
             </div>
@@ -178,10 +180,10 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
                   className="text-[4rem] md:text-[10rem] font-extrabold tracking-tighter leading-none italic text-white drop-shadow-2xl"
                   style={{ fontFamily: "var(--font-heading)" }}
                 >
-                  WAIT...
+                  {t.multiplayer.wait}
                 </h1>
                 <p className="text-white/60 text-lg tracking-[0.4em] font-bold uppercase mt-4">
-                  Don&apos;t click yet!
+                  {t.multiplayer.dontClickYet}
                 </p>
               </>
             )}
@@ -193,18 +195,18 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
                   className="text-[3rem] md:text-[6rem] font-extrabold tracking-tighter leading-none italic text-error drop-shadow-2xl"
                   style={{ fontFamily: "var(--font-heading)" }}
                 >
-                  TOO SOON!
+                  {t.multiplayer.tooSoon}
                 </h1>
                 <p className="text-on-surface-variant text-base tracking-[0.2em] font-bold uppercase">
-                  0 points this round
+                  {t.multiplayer.zeroPoints}
                 </p>
                 <p className="text-on-surface-variant/60 text-lg tracking-[0.2em] font-bold uppercase mt-2">
-                  Waiting for other players...
+                  {t.multiplayer.waitingForPlayers}
                 </p>
                 <div className="flex items-center gap-2 mt-2 text-on-surface-variant/60">
                   <div className="w-2 h-2 rounded-full bg-on-surface-variant/40 animate-pulse" />
                   <span className="text-sm font-mono">
-                    {clickedCount} / {totalActive} clicked
+                    {t.multiplayer.clickedCount.replace("{count}", String(clickedCount)).replace("{total}", String(totalActive))}
                   </span>
                 </div>
               </div>
@@ -217,10 +219,10 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
                   className="text-[4rem] md:text-[14rem] font-extrabold tracking-tighter leading-none italic text-surface-container-lowest drop-shadow-2xl"
                   style={{ fontFamily: "var(--font-heading)" }}
                 >
-                  CLICK NOW!
+                  {t.multiplayer.clickNow}
                 </h1>
                 <p className="text-surface-container-lowest/60 text-lg tracking-[0.4em] font-bold uppercase mt-4">
-                  React instantly!
+                  {t.multiplayer.reactInstantly}
                 </p>
               </>
             )}
@@ -229,7 +231,7 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
             {hasClicked && !clickedTooSoon && myReactionTime !== null && (
               <div className="flex flex-col items-center gap-4">
                 <p className="text-on-surface-variant text-sm font-bold uppercase tracking-[0.2em]">
-                  Your reaction time
+                  {t.multiplayer.yourReactionTime}
                 </p>
                 <div className="flex items-baseline gap-2">
                   <h1
@@ -242,16 +244,16 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
                     className="text-2xl md:text-4xl font-bold text-primary/60"
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
-                    ms
+                    {t.multiplayer.ms}
                   </span>
                 </div>
                 <p className="text-on-surface-variant text-lg tracking-[0.2em] font-bold uppercase">
-                  Waiting for other players...
+                  {t.multiplayer.waitingForPlayers}
                 </p>
                 <div className="flex items-center gap-2 mt-2 text-on-surface-variant/60">
                   <div className="w-2 h-2 rounded-full bg-primary/40 animate-pulse" />
                   <span className="text-sm font-mono">
-                    {clickedCount} / {totalActive} clicked
+                    {t.multiplayer.clickedCount.replace("{count}", String(clickedCount)).replace("{total}", String(totalActive))}
                   </span>
                 </div>
               </div>
@@ -297,7 +299,7 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
                   className="text-2xl font-bold tracking-widest uppercase text-on-surface"
                   style={{ fontFamily: "var(--font-heading)" }}
                 >
-                  Round {room.currentRound - 1} of {room.config.maxRounds}
+                  {t.multiplayer.roundOf.replace("{current}", String(room.currentRound - 1)).replace("{max}", String(room.config.maxRounds))}
                 </span>
               </div>
             </div>
@@ -305,7 +307,7 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
 
           <div className="flex flex-col items-center gap-6 z-10">
             <div className="text-on-surface-variant text-sm font-bold uppercase tracking-[0.2em]">
-              Round {roundResult.round} Results
+              {t.multiplayer.roundResults.replace("{round}", String(roundResult.round))}
             </div>
             <div className="w-full max-w-md grid grid-cols-1 gap-4">
               {[...roundResult.players]
@@ -339,8 +341,8 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
                             i === 0 && !failed ? "text-primary" : "text-on-surface-variant"
                           }`}
                         >
-                          RANK {String(i + 1).padStart(2, "0")}
-                          {isYou && " (YOU)"}
+                          {t.multiplayer.rank.replace("{number}", String(i + 1).padStart(2, "0"))}
+                          {isYou && ` ${t.multiplayer.you}`}
                         </span>
                         <span
                           className={`text-sm font-bold ${
@@ -348,7 +350,7 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
                           }`}
                           style={{ fontFamily: "var(--font-heading)" }}
                         >
-                          +{p.pointsEarned} pts
+                          {t.multiplayer.pointsEarned.replace("{points}", String(p.pointsEarned))}
                         </span>
                       </div>
                       <span
@@ -367,9 +369,9 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
                         }`}
                         style={{ fontFamily: "var(--font-heading)" }}
                       >
-                        {p.timedOut ? "TIME'S UP" : p.tooSoon ? "TOO SOON" : `${p.reactionTime}`}
+                        {p.timedOut ? t.multiplayer.timesUp : p.tooSoon ? t.multiplayer.tooSoonShort : `${p.reactionTime}`}
                         {!failed && (
-                          <span className="text-xs ml-1">MS</span>
+                          <span className="text-xs ml-1">{t.multiplayer.msUnit}</span>
                         )}
                       </span>
                     </div>
@@ -381,7 +383,7 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
             <div className="flex items-center gap-3 mt-4 text-on-surface-variant/60">
               <div className="w-4 h-4 border-2 border-on-surface-variant/20 border-t-primary rounded-full animate-spin" />
               <span className="text-sm uppercase tracking-widest">
-                Next round starting...
+                {t.multiplayer.nextRoundStarting}
               </span>
             </div>
           </div>
@@ -425,17 +427,17 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
               }}
             >
               {isWinner
-                ? "YOU WIN!"
-                : `${winnerPlayer.nickname.toUpperCase()} WINS!`}
+                ? t.multiplayer.youWin
+                : t.multiplayer.playerWins.replace("{nickname}", winnerPlayer.nickname.toUpperCase())}
             </h1>
             <p className="text-sm uppercase tracking-[0.2em] text-on-surface-variant">
-              {room.currentRound - 1} rounds played
+              {t.multiplayer.roundsPlayed.replace("{count}", String(room.currentRound - 1))}
             </p>
 
             {/* Final scoreboard */}
             <div className="w-full max-w-md mt-8 space-y-2">
               <h3 className="text-[10px] uppercase tracking-widest text-on-surface-variant text-center mb-4">
-                Final Standings
+                {t.multiplayer.finalStandings}
               </h3>
               {finalScoreboard.map((p, i) => {
                 const isYou = p.id === playerId;
@@ -464,7 +466,7 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
                         {p.nickname.toUpperCase()}
                         {isYou && (
                           <span className="text-xs ml-1 text-on-surface-variant font-normal">
-                            (you)
+                            {t.multiplayer.youLower}
                           </span>
                         )}
                       </span>
@@ -476,7 +478,7 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
                       style={{ fontFamily: "var(--font-heading)" }}
                     >
                       {p.score}
-                      <span className="text-xs ml-1 text-on-surface-variant">pts</span>
+                      <span className="text-xs ml-1 text-on-surface-variant">{t.multiplayer.pts}</span>
                     </span>
                   </div>
                 );
@@ -491,13 +493,13 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
                   onClick={() => onPlayAgain()}
                   className="bg-primary-container text-on-primary-container font-bold text-lg px-12 py-5 rounded tracking-widest uppercase hover:brightness-110 active:scale-95 transition-all shadow-[0_0_32px_rgba(0,252,64,0.2)] cursor-pointer"
                 >
-                  PLAY AGAIN
+                  {t.multiplayer.playAgain}
                 </button>
               ) : (
                 <div className="flex items-center gap-3 px-12 py-5 text-on-surface-variant">
                   <div className="w-4 h-4 border-2 border-on-surface-variant/20 border-t-primary rounded-full animate-spin" />
                   <span className="text-sm uppercase tracking-widest">
-                    Waiting for host...
+                    {t.multiplayer.waitingForHost}
                   </span>
                 </div>
               )}
@@ -506,7 +508,7 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
                 onClick={() => onLeave()}
                 className="bg-surface-variant text-on-surface font-bold text-lg px-12 py-5 rounded tracking-widest uppercase hover:bg-surface-bright active:scale-95 transition-all border border-outline-variant/20 cursor-pointer"
               >
-                EXIT ARENA
+                {t.multiplayer.exitArena}
               </button>
             </div>
           </div>
@@ -547,7 +549,7 @@ export function MultiplayerArena({ onPlayAgain, onLeave }: MultiplayerArenaProps
       <div className="grow flex flex-col items-center justify-center">
         <div className="flex items-center gap-3 text-on-surface-variant">
           <div className="w-5 h-5 border-2 border-on-surface-variant/20 border-t-primary rounded-full animate-spin" />
-          <span className="text-sm uppercase tracking-widest">Loading...</span>
+          <span className="text-sm uppercase tracking-widest">{t.multiplayer.loading}</span>
         </div>
       </div>
     </div>
@@ -625,11 +627,12 @@ function ScoreboardHUD({
   playerId: string | null;
   gameState: string;
 }) {
+  const { t } = useI18n();
   return (
     <aside className="absolute right-6 top-1/2 -translate-y-1/2 w-72 flex-col gap-3 z-30 hidden lg:flex pointer-events-none">
       <div className="bg-surface-container-lowest/20 backdrop-blur-md p-4 rounded-xl border border-white/5">
         <h3 className="text-[10px] font-black tracking-widest uppercase mb-4 opacity-70">
-          Scoreboard
+          {t.multiplayer.scoreboard}
         </h3>
         <div className="flex flex-col gap-2">
           {players.map((p, i) => {
@@ -670,7 +673,7 @@ function ScoreboardHUD({
                     }`}
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
-                    {isYou ? "YOU" : p.nickname}
+                    {isYou ? t.multiplayer.youIndicator : p.nickname}
                   </span>
                 </div>
                 <span
