@@ -26,12 +26,14 @@ Todo funciona desde el navegador, sin necesidad de instalar nada ni crear cuenta
 
 - [Demo](#demo)
 - [Características](#características)
+- [Highlights Técnicos](#highlights-técnicos)
 - [Tech Stack](#tech-stack)
 - [Arquitectura](#arquitectura)
 - [Primeros Pasos](#primeros-pasos)
-- [Variables de Entorno](#variables-de-entorno)
 - [Scripts Disponibles](#scripts-disponibles)
-- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Despliegue con CubePath](#despliegue-con-cubepath)
+- [Retos y Decisiones de Diseño](#retos-y-decisiones-de-diseño)
+- [Posibles Mejoras Futuras](#posibles-mejoras-futuras)
 - [Créditos](#créditos)
 
 ---
@@ -50,6 +52,24 @@ Todo funciona desde el navegador, sin necesidad de instalar nada ni crear cuenta
 - **Efectos Glitch** — Overlay visual con detección de GPU para efectos de píxeles.
 - **Internacionalización** — Soporte para Inglés y Español desde el día uno.
 - **Diseño responsivo** — Funciona en desktop y móvil.
+- **Zero Login** — Sin cuentas, sin formularios. Entra y juega al instante.
+- **Estética retro-futurista** — Tipografía pixel art (Press Start 2P), fondo mesh con orbes luminosos y paleta neón verde/rojo.
+
+---
+
+## Highlights Técnicos
+
+Cosas que hacen a este proyecto interesante bajo el capó:
+
+| Aspecto | Detalle |
+|---|---|
+| **Precisión de timing** | El servidor registra los timestamps de cada clic con precisión de milisegundos — no confiamos en el reloj del cliente para el ranking. |
+| **Anti-trampas** | Si haces clic antes de la señal "GO", el servidor te descalifica de la ronda automáticamente. |
+| **Transferencia de host** | Si el host se desconecta, el servidor transfiere el control al siguiente jugador — la partida no muere. |
+| **Detección de GPU** | El overlay glitch detecta las capacidades de la GPU del usuario para ajustar los efectos visuales sin sacrificar rendimiento. |
+| **Eventos tipados end-to-end** | Los eventos de Socket.IO están tipados con TypeScript tanto en cliente como en servidor — cero `any`. |
+| **Estado predecible** | Zustand como máquina de estados: `idle → waiting → ready → clicked → tooSoon`. Cada transición está controlada. |
+| **Config por sala** | El host puede ajustar rondas, delay y tiempo límite antes de iniciar — cada sala es una experiencia diferente. |
 
 ---
 
@@ -166,6 +186,32 @@ Este proyecto fue creado en el contexto de una **hackathon de CubePath**. Para e
 1. **Servidor en CubePath** — Se aprovisionó un servidor a través de la plataforma de CubePath.
 2. **Coolify como PaaS** — Sobre ese servidor se desplegó [Coolify](https://coolify.io/), una plataforma open-source de self-hosting.
 3. **Deploy del proyecto** — Desde Coolify se conectó el repositorio y se desplegó Reaction Time Arena con su servidor de Socket.IO incluido.
+
+Esta combinación permite tener un entorno de producción completo, autogestionado y sin depender de servicios cloud tradicionales. CubePath brindó la infraestructura bare-metal y Coolify se encargó del CI/CD y la gestión de contenedores.
+
+---
+
+## Retos y Decisiones de Diseño
+
+Construir un juego multijugador en tiempo real presenta desafíos que no aparecen en una app CRUD típica:
+
+- **Sincronización de tiempo** — En un juego de milisegundos, la latencia importa. Decidimos que el servidor sea la fuente de verdad: él envía la señal "GO" y registra cuándo llega el clic de cada jugador. No se puede hacer trampa manipulando el cliente.
+
+- **Reconexión y resiliencia** — Los jugadores pueden perder conexión brevemente. El servidor detecta desconexiones, auto-falla al jugador en la ronda activa, y si el host se va, transfiere el control automáticamente.
+
+- **UX sin fricción** — Queríamos que cualquier persona pudiera jugar en 5 segundos. Sin login, sin descargas. Abres el link, pones un nickname, y ya estás compitiendo. Esto fue clave para que funcione bien en streams y eventos en vivo.
+
+- **Rendimiento visual vs. accesibilidad** — El efecto glitch es llamativo pero costoso. Implementamos detección de GPU para desactivarlo en dispositivos que no lo soporten bien, evitando que la experiencia visual arruine la experiencia de juego.
+
+---
+
+## Posibles Mejoras Futuras
+
+- Matchmaking automático (cola pública sin necesidad de código de sala)
+- Tabla de líderes global con mejores tiempos históricos
+- Modos de juego alternativos (secuencias, patrones de colores, memoria)
+- Replay de la partida con timeline visual
+- Integración con Twitch para que los viewers jueguen contra el streamer
 
 ---
 
