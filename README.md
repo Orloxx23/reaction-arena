@@ -22,7 +22,7 @@ Un juego multijugador de tiempo de reacción en tiempo real. Compite contra otro
 
 ## Demo
 
-[Click aqui](https://reaction-arena.vercel.app/)
+[Click aqui (CubePath)](http://reaction-arena.45.90.237.180.sslip.io/)
 
 ---
 
