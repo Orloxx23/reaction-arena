@@ -1,8 +1,24 @@
-# ⚡ Reaction Royale
+# ⚡ Reaction Time Arena
 
 > Hecho con amor por **[Orloxx23](https://github.com/Orloxx23)** (Orlando Mina), con la ayuda de **[Claude Code](https://claude.ai/code)** de Anthropic y **[Stitch](https://stitch.withgoogle.com)** de Google.
 
 Un juego multijugador de tiempo de reacción en tiempo real. Compite contra otros jugadores para ver quién tiene los reflejos más rápidos — ¡presiona en el momento justo y sube al podio!
+
+---
+
+## ¿Qué es Reaction Time Arena?
+
+Reaction Royale es un juego web competitivo donde los jugadores ponen a prueba sus reflejos en tiempo real. La mecánica es simple: espera la señal verde y haz clic lo más rápido posible. Pero la gracia está en hacerlo contra otros jugadores en simultáneo.
+
+### ¿Qué problema resuelve?
+
+Los juegos de tiempo de reacción existen desde hace años, pero la mayoría son experiencias solitarias sin contexto competitivo real. Reaction Royale transforma esa mecánica en una experiencia **multijugador en tiempo real**: salas de hasta 8 personas, sistema de puntuación por rondas, ranking acumulado y un ganador final. Es ideal para:
+
+- **Retos entre amigos** — Crea una sala, comparte el código y compitan.
+- **Medir tu progreso** — El modo individual guarda tu mejor tiempo y un historial de intentos.
+- **Diversión rápida** — Las partidas son cortas e intensas, perfectas para pausas o streams.
+
+Todo funciona desde el navegador, sin necesidad de instalar nada ni crear cuenta.
 
 ---
 
@@ -143,6 +159,16 @@ pnpm lint       # Ejecuta ESLint sobre el proyecto
 
 ---
 
+## Despliegue con CubePath
+
+Este proyecto fue creado en el contexto de una **hackathon de CubePath**. Para el despliegue en producción utilizamos la infraestructura de CubePath de la siguiente manera:
+
+1. **Servidor en CubePath** — Se aprovisionó un servidor a través de la plataforma de CubePath.
+2. **Coolify como PaaS** — Sobre ese servidor se desplegó [Coolify](https://coolify.io/), una plataforma open-source de self-hosting.
+3. **Deploy del proyecto** — Desde Coolify se conectó el repositorio y se desplegó Reaction Time Arena con su servidor de Socket.IO incluido.
+
+---
+
 ## Créditos
 
 Este proyecto fue construido con mucho amor y las herramientas adecuadas:
@@ -150,6 +176,7 @@ Este proyecto fue construido con mucho amor y las herramientas adecuadas:
 - **Orloxx23 (Orlando Mina)** — Director, diseñador y desarrollador principal.
 - **[Claude Code](https://claude.ai/code)** — Asistente de IA de Anthropic que ayudó a escribir, estructurar y refactorizar gran parte del código.
 - **[Stitch by Google](https://stitch.withgoogle.com)** — Herramienta de diseño generativo que contribuyó al sistema visual del proyecto.
+- **[CubePath](https://cubepath.io/)** — Infraestructura de servidor donde se desplegó el proyecto mediante Coolify.
 
 ---
 
